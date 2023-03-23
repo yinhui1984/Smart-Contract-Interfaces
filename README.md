@@ -1,6 +1,6 @@
 # 常用智能合约接口查询
 
-小工具: 输入关键字查询智能合约接口
+小工具: 输入关键字查询智能合约接口, 让编写合约时不再为到处找接口定义而烦恼
 
 ## 使用
 
@@ -18,4 +18,4 @@
 
 接口数据在 `interface.sol` 中, 可自行添加 (interface 关键字和接口名称要在同一行)
 
-也可以直接删掉该文件, 程序会从 "https://raw.githubusercontent.com/SunWeb3Sec/DeFiHackLabs/main/src/test/interface.sol" 下载
+也可以直接删掉该文件, 程序会从 "https://raw.githubusercontent.com/SunWeb3Sec/DeFiHackLabs/main/src/test/interface.sol" 下载, 感谢 @SunWeb3Sec 
