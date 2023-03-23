@@ -15,22 +15,33 @@ import (
 	"github.com/atotto/clipboard"
 )
 
-const contractFilePath = "./interface.sol"
-const contractFileUrl = "https://raw.githubusercontent.com/SunWeb3Sec/DeFiHackLabs/main/src/test/interface.sol"
+const interfaceFileUrl = "https://raw.githubusercontent.com/SunWeb3Sec/DeFiHackLabs/main/src/test/interface.sol"
+
+func getInterfaceFilePath() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		fmt.Println(err)
+	}
+	interfaceFilePath := dir + "/interface.sol"
+	//fmt.Println("interfaceFilePath:", interfaceFilePath)
+	return interfaceFilePath
+}
 
 func download() {
-	err := os.MkdirAll(filepath.Dir(contractFilePath), os.ModePerm)
+	interfaceFilePath := getInterfaceFilePath()
+
+	err := os.MkdirAll(filepath.Dir(interfaceFilePath), os.ModePerm)
 	if err != nil {
 		fmt.Printf("Error creating directory: %s\n", err)
 		os.Exit(1)
 	}
-	out, err := os.Create(contractFilePath)
+	out, err := os.Create(interfaceFilePath)
 	if err != nil {
 		fmt.Printf("Error creating file: %s\n", err)
 		os.Exit(1)
 	}
 	defer out.Close()
-	resp, err := http.Get(contractFileUrl)
+	resp, err := http.Get(interfaceFileUrl)
 	if err != nil {
 		fmt.Printf("Error downloading file: %s\n", err)
 		os.Exit(1)
@@ -50,14 +61,16 @@ func main() {
 		os.Exit(1)
 	}
 
+	interfaceFilePath := getInterfaceFilePath()
+
 	// if contractFile not exist ,download it
-	if _, err := os.Stat(contractFilePath); os.IsNotExist(err) {
+	if _, err := os.Stat(interfaceFilePath); os.IsNotExist(err) {
 		fmt.Println("contract file not exist,downloading...")
 		download()
 	}
 
 	interfaceName := os.Args[1]
-	rawData, err := ioutil.ReadFile(filepath.Clean(os.ExpandEnv(contractFilePath)))
+	rawData, err := ioutil.ReadFile(interfaceFilePath)
 	if err != nil {
 		fmt.Printf("Error reading file: %s\n", err)
 		os.Exit(1)
